@@ -13,13 +13,17 @@ import Parse
 class AddPlaceViewController: UIViewController {
     
     
-    @IBAction func saveAction(sender: AnyObject) {
-               let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PlacesReviewed");
-               self.navigationController!.pushViewController(viewController, animated: true)
-    }
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var addPicButton: UIButton!
+    @IBOutlet weak var addPlaceName: UITextField!
+    @IBOutlet weak var addAddress: UITextField!
+    @IBOutlet weak var addPlaceType: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
+            self.userNameLabel.text = "User:" + userNAme
+        }
 
     }
     
@@ -28,4 +32,26 @@ class AddPlaceViewController: UIViewController {
         
     }
     
+    
+    @IBAction func saveAction(sender: AnyObject) {
+        
+
+        let userPlace = PFObject(className:"userPlaces")
+        userPlace["placeName"] = self.addPlaceName.text
+        userPlace["placeAddress"] = self.addAddress.text
+        userPlace["placeType"] = self.addPlaceType.text
+        userPlace.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError?) -> Void in
+            if (success) {
+                // The object has been saved.
+                print("saved")
+            } else {
+                // There was a problem, check error.description
+                print(" not saved")
+            }
+        }
+        
+        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PlacesReviewed");
+        self.navigationController!.pushViewController(viewController, animated: true)
+    }
 }

@@ -13,15 +13,19 @@ import Parse
 class DetailView: UIViewController {
     
     
+    @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
     
     @IBAction func CloseAction(sender: AnyObject) {
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("Home")
-        self.presentViewController(viewController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(viewController, animated: true)
         print("Hello Swift")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
+            self.userNameLabel.text = "User:" + userNAme
+        }
     }
     
     override func didReceiveMemoryWarning() {

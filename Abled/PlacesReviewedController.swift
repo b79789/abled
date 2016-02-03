@@ -12,6 +12,7 @@ import Parse
 
 class PlacesReviewController: UIViewController
  {
+    @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var myTableView: UITableView!
     let placeArray = ["item1", "item2", "item3","item1", "item2", "item3","item1", "item2", "item3","item1"]
     let pic1 =  "barCafe.jpg"
@@ -28,6 +29,9 @@ class PlacesReviewController: UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
+            self.userNameLabel.text = "User:" + userNAme
+        }
         
         myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "customcell")
     }

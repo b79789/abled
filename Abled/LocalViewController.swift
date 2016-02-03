@@ -15,6 +15,7 @@ import MapKit
 class LocalViewController: UIViewController,CLLocationManagerDelegate {
     
     
+    @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     var locationManager: CLLocationManager!
     @IBOutlet weak var myTableView: UITableView!
@@ -33,7 +34,9 @@ class LocalViewController: UIViewController,CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
+            self.userNameLabel.text = "User:" + userNAme
+        }
         if (CLLocationManager.locationServicesEnabled())
         {
             locationManager = CLLocationManager()

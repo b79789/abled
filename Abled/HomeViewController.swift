@@ -11,7 +11,9 @@ import UIKit
 import Parse
 
 class HomeViewController: UIViewController {
+    
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var userImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +21,15 @@ class HomeViewController: UIViewController {
             if let userNAme = PFUser.currentUser()?["username"] as? String {
             self.userNameLabel.text = "User:" + userNAme
         }
+        
+        if let userPicture = PFUser.currentUser()?["profilePic"] as? PFFile {
+            userPicture.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) -> Void in
+                if (error == nil) {
+                    self.userImageView.image = UIImage(data:imageData!)
+                }
+            }
+        }
+        
     }
     
 

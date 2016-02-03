@@ -13,14 +13,25 @@ import Parse
 class EnterReviewDataController: UIViewController {
     
     
+    @IBOutlet weak var userNameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
+            self.userNameLabel.text = "User:" + userNAme
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
+    }
+    
+    @IBAction func saveAction(sender: AnyObject) {
+        print("and we are back")
+        let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PlacesReviewed")
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
 }
