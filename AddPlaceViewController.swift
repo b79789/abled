@@ -10,9 +10,10 @@ import UIKit
 import Parse
 
 
-class AddPlaceViewController: UIViewController {
+class AddPlaceViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
+    @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var addPicButton: UIButton!
     @IBOutlet weak var addPlaceName: UITextField!
@@ -29,6 +30,31 @@ class AddPlaceViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        
+        if (PFUser.currentUser() == nil) {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("Login")
+                self.presentViewController(viewController, animated: true, completion: nil)
+            })
+        }
+        
+        
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
+            self.userNameLabel.text = "User:" + userNAme
+        }
+        
+        if let userPicture = PFUser.currentUser()?["profilePic"] as? PFFile {
+            userPicture.getDataInBackgroundWithBlock { (imageData: NSData?, error: NSError?) -> Void in
+                if (error == nil) {
+                    self.userImageView.image = UIImage(data:imageData!)
+                }
+            }
+        }
         
     }
     
@@ -53,5 +79,23 @@ class AddPlaceViewController: UIViewController {
         
         let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("PlacesReviewed");
         self.navigationController!.pushViewController(viewController, animated: true)
+    }
+    
+    
+    @IBAction func addPhotoAction(sender: AnyObject) {
+        
+        let myPicker = UIImagePickerController()
+        myPicker.delegate = self;
+        myPicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        
+        self.presentViewController(myPicker, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
+    {
+        //profilePic.image = info [UIImagePickerControllerOriginalImage] as? UIImage
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

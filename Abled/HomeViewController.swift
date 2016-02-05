@@ -18,7 +18,29 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-            if let userNAme = PFUser.currentUser()?["username"] as? String {
+        
+    }
+    
+    
+    
+
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        
+        if (PFUser.currentUser() == nil) {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("Login")
+                self.presentViewController(viewController, animated: true, completion: nil)
+            })
+        }
+        
+        
+        if let userNAme = PFUser.currentUser()?["username"] as? String {
             self.userNameLabel.text = "User:" + userNAme
         }
         
@@ -29,22 +51,7 @@ class HomeViewController: UIViewController {
                 }
             }
         }
-        
-    }
-    
 
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        if (PFUser.currentUser() == nil) {
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("Login")
-                self.presentViewController(viewController, animated: true, completion: nil)
-            })
-        }
     }
     
     @IBAction func logOutAction(sender: AnyObject){

@@ -31,6 +31,10 @@ class editProfile: UIViewController,UIImagePickerControllerDelegate, UINavigatio
         
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -48,10 +52,6 @@ class editProfile: UIViewController,UIImagePickerControllerDelegate, UINavigatio
     @IBAction func doneAction(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    @IBAction func editProfilePic(sender: AnyObject) {
-        
-        
-    }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
@@ -59,10 +59,11 @@ class editProfile: UIViewController,UIImagePickerControllerDelegate, UINavigatio
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     @IBAction func saveAction(sender: AnyObject) {
         
         let currentUser: PFUser = PFUser.currentUser()!
-        let profileImageData = UIImageJPEGRepresentation(profilePic.image!, 1)
+        let profileImageData = UIImageJPEGRepresentation(profilePic.image!, 0.05)
         if(profilePic.image == nil)
         {
             let alert = UIAlertController(title: "Alert", message: "Photo cannot be empty", preferredStyle: UIAlertControllerStyle.Alert);
@@ -75,8 +76,28 @@ class editProfile: UIViewController,UIImagePickerControllerDelegate, UINavigatio
         if(profileImageData != nil)
         {
             let profileFile = PFFile(data: profileImageData!)
+            profileFile?.saveInBackground()
             currentUser.setObject(profileFile!, forKey: "profilePic")
-            print("profile image not nil")
+            currentUser.saveInBackgroundWithBlock{(success: Bool, error: NSError?) -> Void in
+                if(error != nil){
+                    let alert = UIAlertController(title: "Alert", message: error!.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert);
+                    let alertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+                    alert.addAction(alertAction);
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                if(success){
+                    let alert = UIAlertController(title: "Alert", message: "Success!", preferredStyle: UIAlertControllerStyle.Alert);
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.dismissViewControllerAnimated(true, completion: {});
+                    self.dismissViewControllerAnimated(true, completion: {});
+                    return
+                    
+                    
+                }
+            }
+            print("save hit")
         }
         
 //        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view,animated: true)

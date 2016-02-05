@@ -413,6 +413,9 @@
                                 <state key="normal" title="Add Photo" image="icon_add.png">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="addPhotoAction:" destination="WhF-ps-br1" eventType="touchUpInside" id="6oJ-VL-lo3"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Place name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y4v-lX-PQx">
                                 <rect key="frame" x="5" y="177" width="590" height="30"/>
@@ -510,6 +513,7 @@
                         <outlet property="addPicButton" destination="njx-1s-S3Q" id="wb3-bR-VUF"/>
                         <outlet property="addPlaceName" destination="Y4v-lX-PQx" id="b5l-bY-XDM"/>
                         <outlet property="addPlaceType" destination="Qun-bo-OsY" id="XCh-E2-xIf"/>
+                        <outlet property="userImageView" destination="8NR-Bi-VwQ" id="1LD-C0-osZ"/>
                         <outlet property="userNameLabel" destination="Kam-Yd-k7k" id="aD6-bx-8aO"/>
                     </connections>
                 </viewController>
@@ -626,7 +630,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="121-aF-Bfy" kind="show" id="m8e-Vz-89b"/>
+                                            <segue destination="121-aF-Bfy" kind="show" identifier="toDetail" id="m8e-Vz-89b"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -701,6 +705,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="myTableView" destination="h0w-mR-uUw" id="6ST-SY-JiD"/>
+                        <outlet property="userImageView" destination="V7G-4a-7b6" id="s2J-9o-3Nx"/>
                         <outlet property="userNameLabel" destination="Lrp-rF-udd" id="wTQ-RO-Gjo"/>
                     </connections>
                 </viewController>
@@ -895,6 +900,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="kQm-43-E3c"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="userImageView" destination="t03-3K-ay9" id="OHG-Qk-hDc"/>
                         <outlet property="userNameLabel" destination="ziP-5A-Qe1" id="xlX-7B-DRl"/>
                     </connections>
                 </viewController>
@@ -1191,7 +1197,13 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="comments" destination="bUK-MP-EGr" id="bb1-WV-bdD"/>
+                        <outlet property="photoCollection" destination="OMl-7u-1lp" id="Ubo-ma-b2c"/>
+                        <outlet property="placeAddress" destination="Fka-V5-HKD" id="dm0-jx-Cm6"/>
+                        <outlet property="placeNameLAbel" destination="BfH-fW-fe8" id="wAl-jr-c36"/>
+                        <outlet property="userImageView" destination="phL-1c-knW" id="L8B-dS-Oc5"/>
                         <outlet property="userNameLabel" destination="3zg-KE-dfW" id="VlM-NM-oJM"/>
+                        <outlet property="userRating" destination="CoO-sp-lU6" id="ZtC-a7-LqT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SFr-XJ-314" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1351,6 +1363,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="userImageView" destination="std-Tl-dFQ" id="a7q-NU-are"/>
                         <outlet property="userNameLabel" destination="f9c-Kw-NNF" id="NdP-yS-JFk"/>
                     </connections>
                 </viewController>
@@ -1466,6 +1479,7 @@
                     <connections>
                         <outlet property="mapView" destination="mtB-yc-jFN" id="S3c-wH-mwu"/>
                         <outlet property="myTableView" destination="Fvy-xe-GPg" id="4V1-eW-ySS"/>
+                        <outlet property="userImageView" destination="WaL-lD-ye4" id="Sxh-D6-Wdx"/>
                         <outlet property="userNameLabel" destination="CVf-tj-eeW" id="K9I-d9-Xza"/>
                     </connections>
                 </viewController>
@@ -1489,7 +1503,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Yi-4k-syZ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-3.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Yi-4k-syZ">
                                 <rect key="frame" x="20" y="84" width="221" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="8UN-rb-1NV"/>
