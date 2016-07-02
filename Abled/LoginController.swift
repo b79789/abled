@@ -32,9 +32,15 @@ class LoginController: UIViewController {
         
         if username?.characters.count < 5 {
             let alert = UIAlertController(title: "Invalid", message: "Username must be greater than 5 characters", preferredStyle: UIAlertControllerStyle.Alert);
+            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+                self.removeFromParentViewController()
+            }))
             showViewController(alert, sender: self);
         } else if password?.characters.count < 8 {
             let alert = UIAlertController(title: "Invalid", message: "Password must be greater than 8 characters",preferredStyle: UIAlertControllerStyle.Alert);
+            alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+                self.removeFromParentViewController()
+            }))
             showViewController(alert, sender: self);
         } else {
             let spinner: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0, 0, 150, 150)) as UIActivityIndicatorView
@@ -49,6 +55,9 @@ class LoginController: UIViewController {
                     
                 } else {
                     let alert = UIAlertController (title:"Error", message: "\(error)",preferredStyle: UIAlertControllerStyle.Alert);
+                    alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action: UIAlertAction!) in
+                        self.removeFromParentViewController()
+                    }))
                     self.showViewController(alert, sender: self);
                 }
             })

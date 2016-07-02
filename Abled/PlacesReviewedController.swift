@@ -17,8 +17,8 @@ class PlacesReviewController: UIViewController
     @IBOutlet weak var myTableView: UITableView!
     
     let userObjects = PFObject.init(className: "userPlaces")
-    
-    var placeArray: NSMutableArray = NSMutableArray()
+    var place = [Places]()
+    var placeArray: NSMutableArray? = NSMutableArray()
     let pic1 =  "barCafe.jpg"
     let pic2 = "bjs.png"
     let pic3 = "jackinthebox_restaurant_thumb.png"
@@ -39,7 +39,10 @@ class PlacesReviewController: UIViewController
         
         myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "customcell")
         self.getParse()
+        
     }
+    
+    
     
     func getParse(){
         let query = PFQuery(className:"userPlaces")
@@ -51,10 +54,9 @@ class PlacesReviewController: UIViewController
 //                    let name = object["placeName"]
 //                    let address = object["placeAddress"]
 //                    let type = object["placeType"]
-
-                    self.placeArray.addObject(object["placeName"])
+//                    self.place.displayName = object["placeName"] as! String
+                    self.placeArray!.addObject(object["placeName"])
                     self.myTableView.reloadData()
-                    
      
                 }
             } else {
@@ -69,6 +71,7 @@ class PlacesReviewController: UIViewController
     }
    
     override func viewWillAppear(animated: Bool) {
+        
         if (PFUser.currentUser() == nil) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("Login")
@@ -86,17 +89,18 @@ class PlacesReviewController: UIViewController
                 }
             }
         }
+
         
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.placeArray.count
+        return self.placeArray!.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("customcell", forIndexPath: indexPath) as UITableViewCell
         let thumbils:[String] = [ pic1,pic2,pic3,pic4,pic5,pic6,pic7,pic8,pic9,pic10]
-        cell.textLabel?.text = self.placeArray[indexPath.item] as? String
+        cell.textLabel?.text = self.placeArray![indexPath.item] as? String
         cell.imageView?.image = UIImage(named: thumbils[indexPath.row])
         return cell
     }
@@ -118,8 +122,8 @@ class PlacesReviewController: UIViewController
             let viewController = navVC.viewControllers.first as! DetailView
             // your new view controller should have property that will store passed value
             
-            viewController.SecondArray = self.placeArray[row] as! String
-            print(self.placeArray[row] as! String)
+            viewController.SecondArray = self.placeArray![row] as! String
+            print(self.placeArray![row] as! String)
         }
         
     }

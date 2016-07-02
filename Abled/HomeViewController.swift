@@ -14,6 +14,9 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
+    var place = [Places]()
+    var myArray = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +54,8 @@ class HomeViewController: UIViewController {
                 }
             }
         }
-
+        
+        getParse()
     }
     
     @IBAction func logOutAction(sender: AnyObject){
@@ -66,4 +70,22 @@ class HomeViewController: UIViewController {
         
     }
     
+    
+    func getParse(){
+        let query = PFQuery(className:"userPlaces")
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            
+            if error == nil {
+                for object in objects! {
+                    self.myArray = [object["placeName"],object["placeAddress"],object["placeType"]]
+                    print(self.myArray[0])
+                    
+                }
+            }else{
+                print("Error: %@ %@", error!, error!.userInfo)
+            }
+        }
+    }
+    
 }
+

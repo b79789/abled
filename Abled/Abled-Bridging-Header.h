@@ -5,3 +5,5 @@
 
 //#import <MBProgressHUD/MBProgressHUD.h>
 
+#import <Parse/PFObject+Subclass.h>
+
